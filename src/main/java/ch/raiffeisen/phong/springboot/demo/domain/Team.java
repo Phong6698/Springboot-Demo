@@ -22,7 +22,6 @@ public class Team {
     @OneToMany(mappedBy="team")
     private List<Player> players;
 
-    @JsonIgnore
     @OneToMany(mappedBy="team")
     private List<TeamGame> teamGames;
 

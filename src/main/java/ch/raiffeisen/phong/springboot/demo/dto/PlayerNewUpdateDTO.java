@@ -1,6 +1,6 @@
 package ch.raiffeisen.phong.springboot.demo.dto;
 
-public class PlayerNewDTO {
+public class PlayerNewUpdateDTO {
 
     private String firstName;
 

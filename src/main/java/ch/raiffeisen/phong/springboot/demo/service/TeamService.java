@@ -41,4 +41,10 @@ public class TeamService {
     public Team getTeamByName(String name){
         return teamRepository.findByName(name);
     }
+
+    public void updateTeam(Integer id, Team team) {
+        Team storedTeam = teamRepository.findOne(id);
+        storedTeam.setName(team.getName());
+        teamRepository.save(storedTeam);
+    }
 }
