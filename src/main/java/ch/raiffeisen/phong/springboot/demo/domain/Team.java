@@ -1,5 +1,7 @@
 package ch.raiffeisen.phong.springboot.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,12 +22,9 @@ public class Team {
     @OneToMany(mappedBy="team")
     private List<Player> players;
 
+    @JsonIgnore
     @OneToMany(mappedBy="team")
     private List<TeamGame> teamGames;
-
-    public Team(String name) {
-        this.name = name;
-    }
 
     public Team() {
     }

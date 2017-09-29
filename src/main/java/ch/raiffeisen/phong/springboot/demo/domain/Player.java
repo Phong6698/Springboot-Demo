@@ -1,5 +1,8 @@
 package ch.raiffeisen.phong.springboot.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 
 @NamedQueries({
@@ -11,26 +14,25 @@ public class Player {
 
     @Id
     @GeneratedValue
+    @ApiModelProperty(notes = "The database generated product ID")
     private int id;
 
     @Column(name="First_Name")
+    @ApiModelProperty(notes = "The player First Name")
     private String firstName;
 
     @Column(name="Last_Name")
+    @ApiModelProperty(notes = "The player First Name")
     private String lastName;
 
     @Column(name="Email")
+    @ApiModelProperty(notes = "The player E-Mail")
     private String email;
 
     @ManyToOne
     @JoinColumn(name="Team_ID")
+    @JsonIgnore
     private Team team;
-
-    public Player(String firstName, String lastName, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
 
     public Player() {
     }
