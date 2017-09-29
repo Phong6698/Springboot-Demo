@@ -1,10 +1,14 @@
 package ch.raiffeisen.phong.springboot.demo.controller;
 
 import ch.raiffeisen.phong.springboot.demo.domain.Player;
+import ch.raiffeisen.phong.springboot.demo.dto.PlayerNewDTO;
+import ch.raiffeisen.phong.springboot.demo.mapper.PlayerMapper;
 import ch.raiffeisen.phong.springboot.demo.service.PlayerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.Model;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,7 @@ import java.util.List;
 public class PlayerController {
 
     private PlayerService playerService;
+    private PlayerMapper playerMapper = Mappers.getMapper(PlayerMapper.class);
 
     @Autowired
     public void setPlayerService(PlayerService playerService){
@@ -57,8 +62,8 @@ public class PlayerController {
 
     @ApiOperation(value = "Add a Player")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity addPlayer(@RequestBody Player player){
-        playerService.savePlayer(player);
+    public ResponseEntity addPlayer(@RequestBody PlayerNewDTO playerNewDTO){
+        playerService.savePlayer(playerMapper.playerNewDTOtoplayer(playerNewDTO));
         return new ResponseEntity("Player saved successfully", HttpStatus.OK);
     }
 
