@@ -1,22 +1,19 @@
 package ch.raiffeisen.phong.springboot.demo.controller;
 
 import ch.raiffeisen.phong.springboot.demo.domain.Player;
+import ch.raiffeisen.phong.springboot.demo.dto.PlayerDTO;
 import ch.raiffeisen.phong.springboot.demo.dto.PlayerNewDTO;
 import ch.raiffeisen.phong.springboot.demo.mapper.PlayerMapper;
 import ch.raiffeisen.phong.springboot.demo.service.PlayerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.Model;
-import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/player")
@@ -40,22 +37,22 @@ public class PlayerController {
 
     @ApiOperation(value = "Search a Player by Id",response = Player.class)
     @RequestMapping(value = "/showById/{id}", method= RequestMethod.GET, produces = "application/json")
-    public Player showPlayerById(@PathVariable Integer id, Model model){
+    public PlayerDTO showPlayerById(@PathVariable Integer id){
         Player player = playerService.getPlayerById(id);
-        return player;
+        return playerMapper.playerToPlayerDTO(player);
     }
 
     @ApiOperation(value = "Search a Player by Email",response = Player.class)
     @RequestMapping(value = "/showByEmail/{email}", method= RequestMethod.GET, produces = "application/json")
-    public Player showPlayerByEmail(@PathVariable String email, Model model){
+    public PlayerDTO showPlayerByEmail(@PathVariable String email){
         //TODO Problem mit @Zeichen
         Player player = playerService.getPlayerByEmail(email);
-        return player;
+        return playerMapper.playerToPlayerDTO(player);
     }
 
     @ApiOperation(value = "Search a Player by String",response = Iterable.class)
     @RequestMapping(value = "/search/{string}", method= RequestMethod.GET, produces = "application/json")
-    public Iterable<Player> searchPlayer(@PathVariable String string, Model model){
+    public Iterable<Player> searchPlayer(@PathVariable String string){
         return playerService.searchPlayer(string);
 
     }

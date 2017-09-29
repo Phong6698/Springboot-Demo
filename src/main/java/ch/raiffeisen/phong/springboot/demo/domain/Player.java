@@ -31,7 +31,6 @@ public class Player {
 
     @ManyToOne
     @JoinColumn(name="Team_ID")
-    @JsonIgnore
     private Team team;
 
     public Player() {
