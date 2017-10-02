@@ -16,4 +16,6 @@ import java.util.Optional;
 
 @RepositoryRestResource
 public interface GameRepository extends CrudRepository<Game, Integer>{
+    Iterable<Game> findAllByTimePlayedIsNotNullOrderByTimePlayedDesc();
+    Iterable<Game> findAllByTimePlayedIsNullOrderByTimePlanedAsc();
 }

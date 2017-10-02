@@ -32,4 +32,11 @@ public class GameService {
     }
 
 
+    public Iterable<Game> getPlayedGames() {
+        return gameRepository.findAllByTimePlayedIsNotNullOrderByTimePlayedDesc();
+    }
+
+    public Iterable<Game> getUnplayedGames(){
+        return gameRepository.findAllByTimePlayedIsNullOrderByTimePlanedAsc();
+    }
 }

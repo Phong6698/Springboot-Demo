@@ -64,7 +64,7 @@ public class TeamGame {
     }
 
     public void setWinner(boolean isWinner) {
-        isWinner = isWinner;
+        this.isWinner = isWinner;
     }
 
 }
