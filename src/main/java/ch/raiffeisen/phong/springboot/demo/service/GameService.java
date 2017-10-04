@@ -5,9 +5,11 @@ import ch.raiffeisen.phong.springboot.demo.domain.Game;
 import ch.raiffeisen.phong.springboot.demo.domain.TeamGame;
 import ch.raiffeisen.phong.springboot.demo.repository.GameRepository;
 import ch.raiffeisen.phong.springboot.demo.repository.TeamGameRepository;
+import ch.raiffeisen.phong.springboot.demo.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,11 +18,13 @@ public class GameService {
 
     private GameRepository gameRepository;
     private TeamGameRepository teamGameRepository;
+    private TeamRepository teamRepository;
 
     @Autowired
-    public void setGameRepository(GameRepository gameRepository, TeamGameRepository teamGameRepository){
+    public void setGameRepository(GameRepository gameRepository, TeamGameRepository teamGameRepository, TeamRepository teamRepository){
         this.gameRepository = gameRepository;
         this.teamGameRepository = teamGameRepository;
+        this.teamRepository = teamRepository;
     }
 
     public void saveNewGame(Game game){
@@ -62,5 +66,13 @@ public class GameService {
         dbGame.setTimePlayed(new Date());
         gameRepository.save(dbGame);
         //TODO Gibt es eine andere möglichkeit?
+    }
+
+    public Iterable<Game> getGamesByTeamId(Integer id){
+        List<Integer> gamesIds = new ArrayList<Integer>();
+        for(TeamGame teamGame : teamRepository.findOne(id).getTeamGames()){
+            gamesIds.add(teamGame.getGame().getId());
+        }
+        return gameRepository.findAll(gamesIds);
     }
 }

@@ -25,8 +25,12 @@ public interface GameMapper {
     GameNewDTO gameToGameNewDTO(Game game);
     Game gameNewDTOtoGame(GameNewDTO gameNewDTO);
 
+
+
     GameDTO gamtToGameDTO(Game game);
     Game gameDTOtoGame(GameDTO gameDTO);
+    @IterableMapping(elementTargetType = GameDTO.class)
+    Iterable<GameDTO> gameIterableToGameDTOIterable(Iterable<Game> game);
 
     @Mappings({
             @Mapping(target="teamId", source="teamGame.team.id")/*,
@@ -42,12 +46,14 @@ public interface GameMapper {
 
 
     @Mappings({
-            @Mapping(target="teamName", source="teamGame.team.name")
+            @Mapping(target="teamName", source="teamGame.team.name"),
+            @Mapping(target="teamId", source="teamGame.team.id")
     })
     TeamGameDTO teamGameToTeamGameDTO(TeamGame teamGame);
 
     @Mappings({
-            @Mapping(target="team.name", source="teamGameDTO.teamName")
+            @Mapping(target="team.name", source="teamGameDTO.teamName"),
+            @Mapping(target="team.id", source="teamGameDTO.teamId")
     })
     TeamGame teamGameDTOtoTeamGame(TeamGameDTO teamGameDTO);
 

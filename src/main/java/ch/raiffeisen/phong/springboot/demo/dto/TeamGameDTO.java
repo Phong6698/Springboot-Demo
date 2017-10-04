@@ -4,6 +4,7 @@ public class TeamGameDTO {
 
     private int id;
     private String teamName;
+    private int teamId;
     private int score;
     private boolean isWinner;
 
@@ -21,6 +22,14 @@ public class TeamGameDTO {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
     }
 
     public int getScore() {

@@ -42,6 +42,13 @@ public class GameController {
 
     }
 
+    @ApiOperation(value = "List games by Team id",response = Iterable.class)
+    @RequestMapping(value = "/listByTeamId/{id}", method= RequestMethod.GET)
+    public Iterable<GameDTO> listGamesByTeamId(@PathVariable Integer id){
+        return gameMapper.gameIterableToGameDTOIterable(gameService.getGamesByTeamId(id));
+
+    }
+
     @ApiOperation(value = "Add a new Game")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity addGame(@RequestBody GameNewDTO gameNewDTO){
