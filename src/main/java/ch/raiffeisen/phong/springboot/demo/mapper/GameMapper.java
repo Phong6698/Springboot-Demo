@@ -1,10 +1,9 @@
 package ch.raiffeisen.phong.springboot.demo.mapper;
 
 import ch.raiffeisen.phong.springboot.demo.domain.Game;
+import ch.raiffeisen.phong.springboot.demo.domain.Team;
 import ch.raiffeisen.phong.springboot.demo.domain.TeamGame;
-import ch.raiffeisen.phong.springboot.demo.dto.GamePlayedDTO;
-import ch.raiffeisen.phong.springboot.demo.dto.GameUnplayedDTO;
-import ch.raiffeisen.phong.springboot.demo.dto.TeamGameDTO;
+import ch.raiffeisen.phong.springboot.demo.dto.*;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,6 +22,23 @@ public interface GameMapper {
     @IterableMapping(elementTargetType = GameUnplayedDTO.class)
     Iterable<GameUnplayedDTO> gameIterableToGameUnplayedDTOIterable(Iterable<Game> game);
 
+    GameNewDTO gameToGameNewDTO(Game game);
+    Game gameNewDTOtoGame(GameNewDTO gameNewDTO);
+
+    GameDTO gamtToGameDTO(Game game);
+    Game gameDTOtoGame(GameDTO gameDTO);
+
+    @Mappings({
+            @Mapping(target="teamId", source="teamGame.team.id")/*,
+            @Mapping(target="gameId", source="teamGame.game.id")*/
+    })
+    TeamGameNewDTO teamGameToTeamGameNewDTO(TeamGame teamGame);
+
+    @Mappings({
+            @Mapping(target="team.id", source="teamId")/*,
+            @Mapping(target="game.id", source="gameId")*/
+    })
+    TeamGame teamGameNewDTOtoTeamGame(TeamGameNewDTO teamGameNewDTO);
 
 
     @Mappings({

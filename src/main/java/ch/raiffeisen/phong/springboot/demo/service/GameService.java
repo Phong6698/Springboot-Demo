@@ -2,32 +2,43 @@ package ch.raiffeisen.phong.springboot.demo.service;
 
 
 import ch.raiffeisen.phong.springboot.demo.domain.Game;
+import ch.raiffeisen.phong.springboot.demo.domain.TeamGame;
 import ch.raiffeisen.phong.springboot.demo.repository.GameRepository;
 import ch.raiffeisen.phong.springboot.demo.repository.TeamGameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class GameService {
 
     private GameRepository gameRepository;
+    private TeamGameRepository teamGameRepository;
 
     @Autowired
-    public void setGameRepository(GameRepository gameRepository){
+    public void setGameRepository(GameRepository gameRepository, TeamGameRepository teamGameRepository){
         this.gameRepository = gameRepository;
+        this.teamGameRepository = teamGameRepository;
     }
 
-    public Iterable<Game> getAllGames(){
-        return gameRepository.findAll();
-    }
-
-    public void saveGame(Game game){
+    public void saveNewGame(Game game){
         gameRepository.save(game);
+        for(TeamGame teamGame : game.getTeamGames()){
+            teamGame.setGame(game);
+        }
+        teamGameRepository.save(game.getTeamGames());
+        //TODO Gibt es eine andere möglichkeit?
     }
+
+    public Game getGameById(Integer id){
+        return gameRepository.findOne(id);
+    }
+
 
     public void deleteGame(Integer id) {
+        teamGameRepository.delete(gameRepository.findOne(id).getTeamGames());
         gameRepository.delete(id);
     }
 
@@ -38,5 +49,18 @@ public class GameService {
 
     public Iterable<Game> getUnplayedGames(){
         return gameRepository.findAllByTimePlayedIsNullOrderByTimePlanedAsc();
+    }
+
+    public void updateGame(Integer id, Game game) {
+        for(TeamGame teamGame : game.getTeamGames()){
+            TeamGame dbTeamGame = teamGameRepository.findOne(teamGame.getId());
+            dbTeamGame.setScore(teamGame.getScore());
+            dbTeamGame.setWinner(teamGame.isWinner());
+            teamGameRepository.save(dbTeamGame);
+        }
+        Game dbGame = gameRepository.findOne(id);
+        dbGame.setTimePlayed(new Date());
+        gameRepository.save(dbGame);
+        //TODO Gibt es eine andere möglichkeit?
     }
 }
