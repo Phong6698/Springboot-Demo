@@ -12,22 +12,8 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface GameMapper {
 
-    GamePlayedDTO gameToGamePlayedDTO(Game game);
-    Game gamePlayedDTOtoGame(GamePlayedDTO gamePlayedDTO);
-    @IterableMapping(elementTargetType = GamePlayedDTO.class)
-    Iterable<GamePlayedDTO> gameIterableToGamePlayedDTOIterable(Iterable<Game> game);
-
-    GameUnplayedDTO gameToGameUnplayedDTO(Game game);
-    Game gameUnplayedDTOtoGame(GameUnplayedDTO gameUnplayedDTO);
-    @IterableMapping(elementTargetType = GameUnplayedDTO.class)
-    Iterable<GameUnplayedDTO> gameIterableToGameUnplayedDTOIterable(Iterable<Game> game);
-
-    GameNewDTO gameToGameNewDTO(Game game);
     Game gameNewDTOtoGame(GameNewDTO gameNewDTO);
-
-
-
-    GameDTO gamtToGameDTO(Game game);
+    GameDTO gameToGameDTO(Game game);
     Game gameDTOtoGame(GameDTO gameDTO);
     @IterableMapping(elementTargetType = GameDTO.class)
     Iterable<GameDTO> gameIterableToGameDTOIterable(Iterable<Game> game);

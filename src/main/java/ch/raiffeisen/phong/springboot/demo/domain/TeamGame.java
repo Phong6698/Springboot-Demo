@@ -2,9 +2,6 @@ package ch.raiffeisen.phong.springboot.demo.domain;
 
 import javax.persistence.*;
 
-@NamedQueries({
-        @NamedQuery(name = "TeamGame.getAllTeamGames", query = "SELECT tg FROM TeamGame tg"),
-})
 @Entity
 @Table(name="TEAM_GAME")
 public class TeamGame {

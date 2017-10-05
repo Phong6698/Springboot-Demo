@@ -4,11 +4,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@NamedQueries({
-        @NamedQuery(name = "Game.getAllGames", query = "SELECT g FROM Game g"),
-        @NamedQuery(name = "Game.getAllUnplayedGames", query = "SELECT g FROM Game g WHERE g.timePlayed IS NULL ORDER BY g.timePlaned ASC"),
-        @NamedQuery(name = "Game.getAllPlayedGames", query = "SELECT g FROM Game g WHERE g.timePlayed IS NOT NULL ORDER BY g.timePlayed DESC"),
-})
 @Entity
 @Table(name="GAME")
 public class Game {
@@ -23,7 +18,7 @@ public class Game {
     @Column(name="Time_Played")
     private Date timePlayed;
 
-    @OneToMany(mappedBy = "game")
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL)
     private List<TeamGame> teamGames;
 
     public int getId() {

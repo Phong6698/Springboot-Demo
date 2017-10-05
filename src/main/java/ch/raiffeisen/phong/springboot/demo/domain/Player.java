@@ -1,13 +1,9 @@
 package ch.raiffeisen.phong.springboot.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
-@NamedQueries({
-        @NamedQuery(name = "Player.getAllPlayers", query = "SELECT p FROM Player p"),
-})
 @Entity
 @Table(name="PLAYER")
 public class Player {

@@ -2,6 +2,7 @@ package ch.raiffeisen.phong.springboot.demo.service;
 
 
 import ch.raiffeisen.phong.springboot.demo.domain.Game;
+import ch.raiffeisen.phong.springboot.demo.domain.Team;
 import ch.raiffeisen.phong.springboot.demo.domain.TeamGame;
 import ch.raiffeisen.phong.springboot.demo.repository.GameRepository;
 import ch.raiffeisen.phong.springboot.demo.repository.TeamGameRepository;
@@ -27,15 +28,6 @@ public class GameService {
         this.teamRepository = teamRepository;
     }
 
-    public void saveNewGame(Game game){
-        gameRepository.save(game);
-        for(TeamGame teamGame : game.getTeamGames()){
-            teamGame.setGame(game);
-        }
-        teamGameRepository.save(game.getTeamGames());
-        //TODO Gibt es eine andere möglichkeit?
-    }
-
     public Game getGameById(Integer id){
         return gameRepository.findOne(id);
     }
@@ -48,31 +40,77 @@ public class GameService {
 
 
     public Iterable<Game> getPlayedGames() {
-        return gameRepository.findAllByTimePlayedIsNotNullOrderByTimePlayedDesc();
+       return gameRepository.findAllByTimePlayedIsNotNullOrderByTimePlayedDesc();
+    }
+
+    public Iterable<Game> getPlayedGamesByTeamId(Integer teamId){
+        List<Integer> gamesIds = new ArrayList<Integer>();
+        Team team = teamRepository.findOne(teamId);
+        if(team == null) {
+            return null;
+        }else{
+            List<TeamGame> teamGames = team.getTeamGames();
+            if(teamGames.size() == 0) {
+                return null;
+            }else{
+                for (TeamGame teamGame : teamGames) {
+                    gamesIds.add(teamGame.getGame().getId());
+                }
+                return gameRepository.findAllByTimePlayedIsNotNullAndIdInOrderByTimePlayedDesc(gamesIds);
+            }
+        }
     }
 
     public Iterable<Game> getUnplayedGames(){
         return gameRepository.findAllByTimePlayedIsNullOrderByTimePlanedAsc();
     }
-
-    public void updateGame(Integer id, Game game) {
-        for(TeamGame teamGame : game.getTeamGames()){
-            TeamGame dbTeamGame = teamGameRepository.findOne(teamGame.getId());
-            dbTeamGame.setScore(teamGame.getScore());
-            dbTeamGame.setWinner(teamGame.isWinner());
-            teamGameRepository.save(dbTeamGame);
-        }
-        Game dbGame = gameRepository.findOne(id);
-        dbGame.setTimePlayed(new Date());
-        gameRepository.save(dbGame);
-        //TODO Gibt es eine andere möglichkeit?
-    }
-
-    public Iterable<Game> getGamesByTeamId(Integer id){
+    public Iterable<Game> getUnplayedGamesByTeamId(Integer teamId) {
         List<Integer> gamesIds = new ArrayList<Integer>();
-        for(TeamGame teamGame : teamRepository.findOne(id).getTeamGames()){
-            gamesIds.add(teamGame.getGame().getId());
+        Team team = teamRepository.findOne(teamId);
+        if(team == null) {
+            return null;
+        }else{
+            List<TeamGame> teamGames = team.getTeamGames();
+            if(teamGames.size() == 0) {
+                return null;
+            }else{
+                for (TeamGame teamGame : teamGames) {
+                    gamesIds.add(teamGame.getGame().getId());
+                }
+                return gameRepository.findAllByTimePlayedIsNullAndIdInOrderByTimePlanedAsc(gamesIds);
+            }
         }
-        return gameRepository.findAll(gamesIds);
     }
+
+
+    public Iterable<Game> getGames() {
+        return gameRepository.findAll();
+
+    }
+
+    public Iterable<Game> getGamesByTeamId(Integer teamId){
+        List<Integer> gamesIds = new ArrayList<Integer>();
+        Team team = teamRepository.findOne(teamId);
+        if(team == null) {
+            return null;
+        }else{
+            List<TeamGame> teamGames = team.getTeamGames();
+            if(teamGames.size() == 0) {
+                return null;
+            }else{
+                for (TeamGame teamGame : teamGames) {
+                    gamesIds.add(teamGame.getGame().getId());
+                }
+                return gameRepository.findAll(gamesIds);
+            }
+        }
+    }
+
+    public void saveGame(Game game) {
+        for(TeamGame teamGame : game.getTeamGames()){
+            teamGame.setGame(game);
+        }
+        gameRepository.save(game);
+    }
+
 }

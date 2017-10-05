@@ -1,13 +1,8 @@
 package ch.raiffeisen.phong.springboot.demo.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.List;
 
-@NamedQueries({
-        @NamedQuery(name = "Team.getAllTeams", query = "SELECT t FROM Team t"),
-})
 @Entity
 @Table(name="TEAM")
 public class Team {
