@@ -1,5 +1,7 @@
 package ch.raiffeisen.phong.springboot.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,9 +16,11 @@ public class Team {
     @Column(name="Name")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy="team")
     private List<Player> players;
 
+    @JsonIgnore
     @OneToMany(mappedBy="team")
     private List<TeamGame> teamGames;
 

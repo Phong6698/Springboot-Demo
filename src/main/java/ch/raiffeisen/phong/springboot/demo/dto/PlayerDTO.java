@@ -1,12 +1,15 @@
 package ch.raiffeisen.phong.springboot.demo.dto;
 
+import ch.raiffeisen.phong.springboot.demo.domain.Team;
+
 public class PlayerDTO {
 
     private int id;
     private String firstName;
     private String lastName;
     private String email;
-    private String teamName;
+/*    private String teamName;*/
+    private Team team;
 
     public int getId() {
         return id;
@@ -39,12 +42,20 @@ public class PlayerDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-
+/*
     public String getTeamName() {
         return teamName;
     }
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }*/
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

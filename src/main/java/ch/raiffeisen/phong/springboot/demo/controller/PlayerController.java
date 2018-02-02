@@ -1,7 +1,7 @@
 package ch.raiffeisen.phong.springboot.demo.controller;
 
+import ch.raiffeisen.phong.springboot.demo.domain.Player;
 import ch.raiffeisen.phong.springboot.demo.dto.PlayerDTO;
-import ch.raiffeisen.phong.springboot.demo.dto.PlayerNewUpdateDTO;
 import ch.raiffeisen.phong.springboot.demo.mapper.PlayerMapper;
 import ch.raiffeisen.phong.springboot.demo.service.PlayerService;
 import io.swagger.annotations.Api;
@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/player")
 @Api(value="Player", description="Player")
@@ -55,16 +55,16 @@ public class PlayerController {
 
     @ApiOperation(value = "Add a Player")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity addPlayer(@RequestBody PlayerNewUpdateDTO playerNewUpdateDTO){
-        playerService.savePlayer(playerMapper.playerNewUpdateDTOtoplayer(playerNewUpdateDTO));
-        return new ResponseEntity("Player saved successfully", HttpStatus.OK);
+    public ResponseEntity addPlayer(@RequestBody PlayerDTO playerDTO){
+        Player player = playerService.savePlayer(playerMapper.playerDTOtoPlayer(playerDTO));
+        return new ResponseEntity(playerMapper.playerToPlayerDTO(player), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Update a Player")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity updatePlayer(@PathVariable Integer id, @RequestBody PlayerNewUpdateDTO playerNewUpdateDTO){
-        playerService.updatePlayer(id, playerMapper.playerNewUpdateDTOtoplayer(playerNewUpdateDTO));
-        return new ResponseEntity("Player updated successfully", HttpStatus.OK);
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity updatePlayer(@RequestBody PlayerDTO playerDTO){
+        Player player = playerService.savePlayer(playerMapper.playerDTOtoPlayer(playerDTO));
+        return new ResponseEntity(playerMapper.playerToPlayerDTO(player), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete a Player")

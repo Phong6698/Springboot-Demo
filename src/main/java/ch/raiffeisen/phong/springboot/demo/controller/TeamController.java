@@ -1,7 +1,7 @@
 package ch.raiffeisen.phong.springboot.demo.controller;
 
+import ch.raiffeisen.phong.springboot.demo.domain.Team;
 import ch.raiffeisen.phong.springboot.demo.dto.TeamDTO;
-import ch.raiffeisen.phong.springboot.demo.dto.TeamNewUpdateDTO;
 import ch.raiffeisen.phong.springboot.demo.mapper.TeamMapper;
 import ch.raiffeisen.phong.springboot.demo.service.TeamService;
 import io.swagger.annotations.Api;
@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/team")
 @Api(value="Team", description="Team")
@@ -40,12 +40,6 @@ public class TeamController {
         return teamMapper.teamToTeamDTO(teamService.getTeamById(id));
     }
 
-/*    @ApiOperation(value = "Search a Team by Player Id",response = Team.class)
-    @RequestMapping(value = "/showByPlayer/{id}", method= RequestMethod.GET, produces = "application/json")
-    public Team showTeamByPlayerId(@PathVariable Integer id, Model model){
-        return teamService.getTeamByPlayerId(id);
-    }*/
-
     @ApiOperation(value = "Search a Team by Name",response = TeamDTO.class)
     @RequestMapping(value = "/showByName/{name}", method= RequestMethod.GET, produces = "application/json")
     public TeamDTO showTeamByName(@PathVariable String name){
@@ -54,16 +48,16 @@ public class TeamController {
 
     @ApiOperation(value = "Add a Team")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity addTeam(@RequestBody TeamNewUpdateDTO teamNewDTO){
-        teamService.saveTeam(teamMapper.teamNewUpdateDTOtoTeam(teamNewDTO));
-        return new ResponseEntity("Team saved successfully", HttpStatus.OK);
+    public ResponseEntity addTeam(@RequestBody TeamDTO teamDTO){
+        Team team = teamService.saveTeam(teamMapper.teamDTOtoTeam(teamDTO));
+        return new ResponseEntity(teamMapper.teamToTeamDTO(team), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Update a Team")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.PUT, produces = "application/json")
-    public ResponseEntity updatePlayer(@PathVariable Integer id, @RequestBody TeamNewUpdateDTO teamNewUpdateDTO){
-        teamService.updateTeam(id, teamMapper.teamNewUpdateDTOtoTeam(teamNewUpdateDTO));
-        return new ResponseEntity("Player updated successfully", HttpStatus.OK);
+    @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity updatePlayer(@RequestBody TeamDTO teamDTO){
+        Team team = teamService.saveTeam(teamMapper.teamDTOtoTeam(teamDTO));
+        return new ResponseEntity(teamMapper.teamToTeamDTO(team), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete a Team")

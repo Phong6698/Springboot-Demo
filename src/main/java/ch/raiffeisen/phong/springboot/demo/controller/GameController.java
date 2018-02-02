@@ -1,5 +1,6 @@
 package ch.raiffeisen.phong.springboot.demo.controller;
 
+import ch.raiffeisen.phong.springboot.demo.domain.Game;
 import ch.raiffeisen.phong.springboot.demo.dto.GameDTO;
 import ch.raiffeisen.phong.springboot.demo.mapper.GameMapper;
 import ch.raiffeisen.phong.springboot.demo.service.GameService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin // https://github.com/angular/angular/issues/6583
 @RestController
 @RequestMapping("/game")
 @Api(value="Game", description="Game")
@@ -57,8 +59,8 @@ public class GameController {
     @ApiOperation(value = "Add a new Game")
     @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity addGame(@RequestBody GameDTO gameDTO){
-        gameService.saveGame(gameMapper.gameDTOtoGame(gameDTO));
-        return new ResponseEntity("Game saved successfully", HttpStatus.OK);
+        Game game = gameService.saveGame(gameMapper.gameDTOtoGame(gameDTO));
+        return new ResponseEntity(gameMapper.gameToGameDTO(game), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Show Game by id",response = GameDTO.class)
@@ -70,8 +72,8 @@ public class GameController {
     @ApiOperation(value = "Update a Game")
     @RequestMapping(value = "/update", method = RequestMethod.PUT, produces = "application/json")
     public ResponseEntity updateGame(@RequestBody GameDTO gameDTO){
-        gameService.saveGame(gameMapper.gameDTOtoGame(gameDTO));
-        return new ResponseEntity("Game updated successfully", HttpStatus.OK);
+        Game game = gameService.saveGame(gameMapper.gameDTOtoGame(gameDTO));
+        return new ResponseEntity(gameMapper.gameToGameDTO(game), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete a Game")

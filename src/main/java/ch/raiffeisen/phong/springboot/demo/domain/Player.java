@@ -1,5 +1,6 @@
 package ch.raiffeisen.phong.springboot.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Player {
     @ApiModelProperty(notes = "The player E-Mail")
     private String email;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="Team_ID")
     private Team team;

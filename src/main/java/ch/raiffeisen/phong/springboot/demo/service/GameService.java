@@ -106,11 +106,11 @@ public class GameService {
         }
     }
 
-    public void saveGame(Game game) {
+    public Game saveGame(Game game) {
         for(TeamGame teamGame : game.getTeamGames()){
             teamGame.setGame(game);
         }
-        gameRepository.save(game);
+        return gameRepository.save(game);
     }
 
 }

@@ -3,8 +3,7 @@ package ch.raiffeisen.phong.springboot.demo.dto;
 public class TeamGameDTO {
 
     private int id;
-    private String teamName;
-    private int teamId;
+    private TeamDTO team;
     private int score;
     private boolean isWinner;
 
@@ -14,22 +13,6 @@ public class TeamGameDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public int getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
     }
 
     public int getScore() {
@@ -46,5 +29,13 @@ public class TeamGameDTO {
 
     public void setWinner(boolean winner) {
         isWinner = winner;
+    }
+
+    public TeamDTO getTeam() {
+        return team;
+    }
+
+    public void setTeam(TeamDTO team) {
+        this.team = team;
     }
 }

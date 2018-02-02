@@ -1,12 +1,14 @@
 package ch.raiffeisen.phong.springboot.demo.dto;
 
+import ch.raiffeisen.phong.springboot.demo.domain.Player;
+
 import java.util.List;
 
 public class TeamDTO {
 
     private int id;
     private String name;
-    private List<PlayerDTO> players;
+    private List<Player> players;
 
     public int getId() {
         return id;
@@ -24,11 +26,11 @@ public class TeamDTO {
         this.name = name;
     }
 
-    public List<PlayerDTO> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<PlayerDTO> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 }

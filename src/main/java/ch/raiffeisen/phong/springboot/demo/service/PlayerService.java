@@ -22,8 +22,8 @@ public class PlayerService {
         return playerRepository.findAll();
     }
 
-    public void savePlayer(Player player){
-        playerRepository.save(player);
+    public Player savePlayer(Player player){
+        return playerRepository.save(player);
     }
 
     public void deletePlayer(Integer id) {
@@ -39,15 +39,6 @@ public class PlayerService {
     }
 
     public Iterable<Player> searchPlayer(String string){
-        /*return playerRepository.findAllByEmailContainsOrFirstNameContainsOrLastNameContains(string);*/
         return playerRepository.findAllByFirstNameContainsOrLastNameContainsOrEmailContains(string, string, string);
-    }
-
-    public void updatePlayer(Integer id, Player player) {
-        Player storedPlayer = playerRepository.findOne(id);
-        storedPlayer.setFirstName(player.getFirstName());
-        storedPlayer.setLastName(player.getLastName());
-        storedPlayer.setEmail(player.getEmail());
-        playerRepository.save(storedPlayer);
     }
 }
